@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pietro Impellizzeri Foto & VIDEO - Archivio Preventivi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; }
+        .header { background: linear-gradient(135deg, #1a1a2e, #0f3460); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 1.4em; color: #f39c12; }
+        .header p { font-size: 0.85em; opacity: 0.9; margin-top: 5px; }
+        .nav { display: flex; justify-content: center; gap: 10px; padding: 12px; background: #2c3e50; flex-wrap: wrap; }
+        .nav a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.9em; transition: background 0.3s; }
+        .nav a:hover { background: #c0392b; }
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+        .section { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+        .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .filters select { padding: 8px; border-radius: 6px; border: 2px solid #ddd; }
+        .prev-list { display: grid; gap: 12px; }
+        .prev-card {
+            background: #f8f9fa; border-left: 4px solid #3498db; padding: 15px;
+            border-radius: 8px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .prev-info h3 { color: #333; font-size: 1em; }
+        .prev-info p { color: #666; font-size: 0.85em; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: bold; color: white; }
+        .badge-bozza { background: #95a5a6; }
+        .badge-inviato { background: #3498db; }
+        .badge-accettato { background: #27ae60; }
+        .badge-rifiutato { background: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Archivio Preventivi</h1>
+        <p>Pietro Impellizzeri Foto & VIDEO | Via Sommariva 43 Capaci (PA)</p>
+    </div>
+    <div class="nav">
+        <a href="dashboard.html"> Dashboard</a>
+        <a href="clienti.html">📝 Nuovo Preventivo</a>
+        <a href="contratti.html"> Contratti</a>
+        <a href="archivio.html">📁 Archivio Completo</a>
+        <a href="logout.html"> Esci</a>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <div class="filters">
+                <select id="filtroStato" onchange="filtraPreventivi()">
+                    <option value="">Tutti gli stati</option>
+                    <option>Bozza</option><option>Inviato</option><option>Accettato</option><option>Rifiutato</option>
+                </select>
+            </div>
+            <div class="prev-list" id="prevList"></div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        if (!isAuthenticated()) { window.location.href = 'login.html'; }
+
+        function caricaPreventivi() {
+            const clienti = JSON.parse(localStorage.getItem('glClienti') || '[]');
+            const filtro = document.getElementById('filtroStato').value;
+            const lista = document.getElementById('prevList');
+            lista.innerHTML = '';
+
+            const filtrati = filtro ? clienti.filter(c => c.stato === filtro) : clienti;
+
+            if (filtrati.length === 0) {
+                lista.innerHTML = '<p style="text-align:center; color:#999;">Nessun preventivo trovato.</p>';
+                return;
+            }
+
+            filtrati.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'prev-card';
+                const badgeClass = 'badge-' + (c.stato || 'bozza').toLowerCase();
+                card.innerHTML = `
+                    <div class="prev-info">
+                        <h3>${c.c1.cognome} ${c.c1.nome}</h3>
+                        <p> ${c.dataEvento || 'N/D'} |  ${c.servizio || 'N/D'} | 💰 € ${c.importoTotale || '0.00'}</p>
+                    </div>
+                    <span class="badge ${badgeClass}">${c.stato || 'Bozza'}</span>
+                `;
+                lista.appendChild(card);
+            });
+        }
+
+        function filtraPreventivi() { caricaPreventivi(); }
+        caricaPreventivi();
+    </script>
+</body>
+</html>
