@@ -22,6 +22,8 @@
             width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px; font-size: 0.9em;
         }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #c0392b; }
+        .maps-link { color: #3498db; text-decoration: none; font-weight: bold; margin-left: 5px; }
+        .maps-link:hover { text-decoration: underline; color: #2980b9; }
         .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
         .btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9em; transition: transform 0.2s; }
         .btn:hover { transform: translateY(-2px); }
@@ -47,7 +49,7 @@
     <div class="nav">
         <a href="dashboard.html">🏠 Dashboard</a>
         <a href="preventivi.html">📊 Archivio Preventivi</a>
-        <a href="contratti.html">📜 Contratti</a>
+        <a href="contratti.html"> Contratti</a>
         <a href="archivio.html">📁 Archivio</a>
         <a href="logout.html">🚪 Esci</a>
     </div>
@@ -59,8 +61,10 @@
             <div class="form-row">
                 <div class="form-group"><label>Cognome</label><input type="text" id="c1Cognome"></div>
                 <div class="form-group"><label>Nome</label><input type="text" id="c1Nome"></div>
-                <div class="form-group"><label>Indirizzo e Città</label><input type="text" id="c1Indirizzo"></div>
-                <div class="form-group"><label>📍 <a href="#" onclick="apriMaps('c1Indirizzo')">Maps</a></label><input type="text" id="c1Maps" readonly></div>
+                <div class="form-group">
+                    <label>Indirizzo e Città <a href="#" class="maps-link" onclick="apriMaps('c1Indirizzo')">📍 Maps</a></label>
+                    <input type="text" id="c1Indirizzo">
+                </div>
                 <div class="form-group"><label>Cellulare</label><input type="tel" id="c1Cellulare"></div>
                 <div class="form-group"><label>Email</label><input type="email" id="c1Email"></div>
             </div>
@@ -69,8 +73,10 @@
             <div class="form-row">
                 <div class="form-group"><label>Cognome</label><input type="text" id="c2Cognome"></div>
                 <div class="form-group"><label>Nome</label><input type="text" id="c2Nome"></div>
-                <div class="form-group"><label>Indirizzo e Città</label><input type="text" id="c2Indirizzo"></div>
-                <div class="form-group"><label>📍 <a href="#" onclick="apriMaps('c2Indirizzo')">Maps</a></label><input type="text" id="c2Maps" readonly></div>
+                <div class="form-group">
+                    <label>Indirizzo e Città <a href="#" class="maps-link" onclick="apriMaps('c2Indirizzo')">📍 Maps</a></label>
+                    <input type="text" id="c2Indirizzo">
+                </div>
                 <div class="form-group"><label>Cellulare</label><input type="tel" id="c2Cellulare"></div>
                 <div class="form-group"><label>Email</label><input type="email" id="c2Email"></div>
             </div>
@@ -91,7 +97,10 @@
                 </div>
                 <div class="form-group"><label>Data Evento</label><input type="date" id="dataEvento"></div>
                 <div class="form-group"><label>Chiesa</label><input type="text" id="chiesa"></div>
-                <div class="form-group"><label>📍 Location</label><input type="text" id="location"></div>
+                <div class="form-group">
+                    <label>Location <a href="#" class="maps-link" onclick="apriMaps('location')">📍 Maps</a></label>
+                    <input type="text" id="location" placeholder="Inserisci indirizzo location">
+                </div>
             </div>
 
             <div class="form-row">
@@ -230,7 +239,7 @@
             <button class="btn btn-save" onclick="salvaPreventivo()">💾 Salva Preventivo</button>
             <button class="btn btn-edit" onclick="modificaPreventivo()">✏️ Modifica</button>
             <button class="btn btn-accept" onclick="accettaPreventivo()">✅ Accettato</button>
-            <button class="btn btn-reject" onclick="rifiutaPreventivo()">❌ Rifiutato</button>
+            <button class="btn btn-reject" onclick="rifiutaPreventivo()"> Rifiutato</button>
             <button class="btn btn-delete" onclick="eliminaPreventivo()">🗑️ Elimina</button>
             <button class="btn btn-pdf" onclick="creaPDF()">📄 Crea PDF</button>
         </div>
@@ -240,10 +249,13 @@
     <script>
         if (!isAuthenticated()) { window.location.href = 'login.html'; }
 
-        function apriMaps(idCampo) {
-            const indirizzo = document.getElementById(idCampo).value;
-            if (indirizzo) window.open('https://maps.google.com/?q=' + encodeURIComponent(indirizzo), '_blank');
-            else alert('Inserisci prima un indirizzo.');
+        function apriMaps(campoId) {
+            const indirizzo = document.getElementById(campoId).value;
+            if (indirizzo) {
+                window.open('https://maps.google.com/?q=' + encodeURIComponent(indirizzo), '_blank');
+            } else {
+                alert('⚠️ Inserisci prima un indirizzo nel campo!');
+            }
         }
 
         function salvaPreventivo() {
@@ -298,7 +310,7 @@
         function modificaPreventivo() { alert('Funzionalità di modifica in sviluppo.'); }
         function accettaPreventivo() { alert('Preventivo accettato!'); }
         function rifiutaPreventivo() { alert('Preventivo rifiutato.'); }
-        function eliminaPreventivo() { if(confirm('Sei sicuro?')) alert('Preventivo eliminato.'); }
+        function eliminaPreventivo() { if(confirm('Sei sicuro di voler eliminare questo preventivo?')) alert('Preventivo eliminato.'); }
         function creaPDF() { alert('Generazione PDF in sviluppo.'); }
     </script>
 </body>
