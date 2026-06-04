@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pietro Impellizzeri Foto & Video - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            color: white; padding: 20px; text-align: center;
+        }
+        .header h1 { font-size: 1.4em; color: #f39c12; }
+        .header p { font-size: 0.85em; opacity: 0.9; margin-top: 5px; }
+        .nav {
+            display: flex; justify-content: center; gap: 10px;
+            padding: 12px; background: #2c3e50; flex-wrap: wrap;
+        }
+        .nav a {
+            color: white; text-decoration: none; padding: 8px 16px;
+            border-radius: 6px; font-size: 0.9em; transition: background 0.3s;
+        }
+        .nav a:hover { background: #c0392b; }
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+        .stats {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px; margin-bottom: 25px;
+        }
+        .stat-card {
+            background: white; border-radius: 12px; padding: 20px;
+            text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        .stat-card .num { font-size: 2em; font-weight: bold; color: #c0392b; }
+        .stat-card .label { font-size: 0.85em; color: #666; margin-top: 5px; }
+        .actions {
+            background: white; border-radius: 12px; padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        .actions h2 { font-size: 1.2em; margin-bottom: 15px; color: #333; }
+        .action-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .action-btn {
+            display: flex; align-items: center; gap: 10px;
+            padding: 15px 20px; border-radius: 10px;
+            text-decoration: none; font-weight: 600; transition: transform 0.2s;
+        }
+        .action-btn:hover { transform: translateY(-2px); }
+        .btn-new { background: #27ae60; color: white; }
+        .btn-prev { background: #3498db; color: white; }
+        .btn-arch { background: #9b59b6; color: white; }
+        .btn-backup { background: #e67e22; color: white; }
+        .btn-restore { background: #16a085; color: white; }
+        .btn-logout { background: #c0392b; color: white; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>PIETRO IMPELLIZZERI FOTO & VIDEO - Dashboard</h1>
+        <p>Via Sommariva 43, Capaci (PA) | 📧 pietroimpellizzerifotoevideo@gamail.com | 📞 327 498 7435</p>
+    </div>
+    <div class="nav">
+        <a href="dashboard.html">🏠 Dashboard</a>
+        <a href="clienti.html">📝 Nuovo Preventivo</a>
+        <a href="preventivi.html">📊 Archivio Preventivi</a>
+        <a href="contratti.html">📜 Contratti</a>
+        <a href="archivio.html">📁 Archivio Completo</a>
+        <a href="logout.html">🚪 Esci</a>
+    </div>
+
+    <div class="container">
+        <div class="stats">
+            <div class="stat-card"><div class="num" id="totalClients">0</div><div class="label">Clienti Totali</div></div>
+            <div class="stat-card"><div class="num" id="totalPreventivi">0</div><div class="label">Preventivi</div></div>
+            <div class="stat-card"><div class="num" id="totalContratti">0</div><div class="label">Contratti</div></div>
+            <div class="stat-card"><div class="num" id="totaleIncassato">€ 0</div><div class="label">Totale Incassato</div></div>
+            <div class="stat-card"><div class="num" id="saldoDaIncassare">€ 0</div><div class="label">Saldo da Incassare</div></div>
+        </div>
+
+        <div class="actions">
+            <h2>Azioni Rapide</h2>
+            <div class="action-grid">
+                <a href="clienti.html" class="action-btn btn-new">📝 Nuovo Preventivo</a>
+                <a href="preventivi.html" class="action-btn btn-prev">📊 Archivio Preventivi</a>
+                <a href="contratti.html" class="action-btn btn-arch">📜 Contratti</a>
+                <a href="archivio.html" class="action-btn btn-arch">📁 Archivio Completo</a>
+                <a href="#" class="action-btn btn-backup" onclick="scaricaBackup()">📥 Scarica Backup</a>
+                <a href="#" class="action-btn btn-restore" onclick="document.getElementById('restoreFile').click()">📤 Ripristina</a>
+                <a href="logout.html" class="action-btn btn-logout">🚪 Esci</a>
+            </div>
+            <input type="file" id="restoreFile" style="display:none" accept=".json" onchange="ripristinaBackup(event)">
+        </div>
+    </div>
+
+    <script>
+        if (!localStorage.getItem('pietroAuthenticated') || localStorage.getItem('pietroAuthenticated') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        function caricaStatistiche() {
+            const clienti = JSON.parse(localStorage.getItem('pietroClienti') || '[]');
+            const preventivi = JSON.parse(localStorage.getItem('pietroPreventivi') || '[]');
+            const contratti = JSON.parse(localStorage.getItem('pietroContratti') || '[]');
+
+            document.getElementById('totalClients').textContent = clienti.length;
+            document.getElementById('totalPreventivi').textContent = preventivi.length;
+            document.getElementById('totalContratti').textContent = contratti.length;
+
+            let incassato = 0, saldo = 0;
+            contratti.forEach(c => {
+                if (c.acconti) {
+                    c.acconti.forEach(a => incassato += parseFloat(a.importo) || 0);
+                }
+                saldo += (parseFloat(c.importoTotale) || 0) - incassato;
+            });
+
+            document.getElementById('totaleIncassato').textContent = '€ ' + incassato.toFixed(2);
+            document.getElementById('saldoDaIncassare').textContent = '€ ' + Math.max(0, saldo).toFixed(2);
+        }
+
+        function scaricaBackup() {
+            const backup = {
+                clienti: JSON.parse(localStorage.getItem('pietroClienti') || '[]'),
+                preventivi: JSON.parse(localStorage.getItem('pietroPreventivi') || '[]'),
+                contratti: JSON.parse(localStorage.getItem('pietroContratti') || '[]'),
+                data: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'backup_pietro_' + new Date().toISOString().slice(0,10) + '.json';
+            a.click();
+        }
+
+        function ripristinaBackup(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.clienti) localStorage.setItem('pietroClienti', JSON.stringify(data.clienti));
+                    if (data.preventivi) localStorage.setItem('pietroPreventivi', JSON.stringify(data.preventivi));
+                    if (data.contratti) localStorage.setItem('pietroContratti', JSON.stringify(data.contratti));
+                    alert('✅ Backup ripristinato con successo!');
+                    caricaStatistiche();
+                } catch (err) {
+                    alert('❌ Errore nel file di backup.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        caricaStatistiche();
+    </script>
+</body>
+</html>
