@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pietro Impellizzeri Foto & VIDEO - Accesso</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .logo { font-size: 1.6em; font-weight: bold; color: #c0392b; margin-bottom: 5px; }
+        .subtitle { font-size: 0.9em; color: #555; margin-bottom: 5px; }
+        .address { font-size: 0.8em; color: #777; margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-size: 0.85em; color: #333; margin-bottom: 5px; font-weight: 600; }
+        .form-group input {
+            width: 100%; padding: 12px; border: 2px solid #ddd;
+            border-radius: 8px; font-size: 1em; transition: border-color 0.3s;
+        }
+        .form-group input:focus { outline: none; border-color: #c0392b; }
+        .btn-login {
+            width: 100%; padding: 14px; background: #c0392b; color: white;
+            border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold;
+            cursor: pointer; margin-top: 10px; transition: background 0.3s;
+        }
+        .btn-login:hover { background: #a93226; }
+        .error { color: #e74c3c; font-size: 0.85em; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">PIETRO IMPELLIZZERI FOTO & VIDEO</div>
+        <div class="subtitle">Gestione Preventivi e Contratti</div>
+        <div class="address">Via Ciarrocco n.21, Canicattì (AG)</div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>👤 Nome Utente</label>
+                <input type="text" id="username" placeholder="Inserisci username" required>
+            </div>
+            <div class="form-group">
+                <label>🔑 Password</label>
+                <input type="password" id="password" placeholder="Inserisci password" required>
+            </div>
+            <div class="error" id="errorMsg"> Credenziali non valide.</div>
+            <button type="submit" class="btn-login"> ACCEDI</button>
+        </form>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (authenticate(username, password)) {
+                window.location.href = 'dashboard.html';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
