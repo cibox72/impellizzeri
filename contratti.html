@@ -13,33 +13,74 @@
         .nav { display: flex; justify-content: center; gap: 10px; padding: 12px; background: #2c3e50; flex-wrap: wrap; }
         .nav a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.9em; transition: background 0.3s; }
         .nav a:hover { background: #c0392b; }
-        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
         .section { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
         .contratti-list { display: grid; gap: 12px; }
         .contratto-card {
             background: #f8f9fa; border-left: 4px solid #27ae60; padding: 15px;
-            border-radius: 8px; display: flex; justify-content: space-between; align-items: center;
+            border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
         }
         .contratto-info h3 { color: #333; font-size: 1em; }
-        .contratto-info p { color: #666; font-size: 0.85em; }
+        .contratto-info p { color: #666; font-size: 0.85em; margin-top: 3px; }
+        .saldo-box { background: #fff3cd; padding: 8px 12px; border-radius: 8px; border: 2px solid #f39c12; }
+        .saldo-box .label { font-size: 0.75em; color: #666; }
+        .saldo-box .value { font-size: 1.1em; font-weight: bold; color: #c0392b; }
+        .btn-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-actions button {
+            padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer;
+            font-size: 0.85em; font-weight: bold; color: white; transition: transform 0.2s;
+        }
+        .btn-actions button:hover { transform: translateY(-2px); }
+        .btn-detail { background: #3498db; }
+        .btn-acconto { background: #f39c12; }
+        .btn-pdf { background: #8e44ad; }
+        
+        /* Modal */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center;
+            padding: 20px; overflow-y: auto;
         }
         .modal-content {
-            background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 90%;
+            background: white; border-radius: 12px; padding: 30px; max-width: 800px; width: 100%;
+            max-height: 90vh; overflow-y: auto;
         }
-        .modal-content h2 { color: #c0392b; margin-bottom: 15px; }
-        .modal-content .form-group { margin-bottom: 12px; }
-        .modal-content label { display: block; font-size: 0.85em; color: #555; margin-bottom: 4px; }
-        .modal-content input, .modal-content textarea {
-            width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px;
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .modal-header h2 { color: #c0392b; }
+        .close-btn { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9em; }
+        .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+        .detail-item { background: #f8f9fa; padding: 12px; border-radius: 8px; }
+        .detail-item label { font-size: 0.8em; color: #666; font-weight: bold; display: block; margin-bottom: 4px; }
+        .detail-item span { font-size: 0.95em; color: #333; }
+        .section-title { font-size: 1.1em; color: #c0392b; margin: 20px 0 10px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        
+        /* Acconti */
+        .acconti-section { background: #e8f8f5; border: 2px solid #16a085; border-radius: 10px; padding: 20px; margin-top: 20px; }
+        .acconti-section h3 { color: #16a085; margin-bottom: 15px; }
+        .acconto-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 15px; }
+        .acconto-form input, .acconto-form textarea {
+            padding: 10px; border: 2px solid #ddd; border-radius: 6px; font-size: 0.9em;
         }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
-        .modal-buttons button { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-save { background: #27ae60; color: white; }
-        .btn-cancel { background: #95a5a6; color: white; }
-        .btn-close { background: #e74c3c; color: white; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; }
+        .acconto-form textarea { grid-column: 1 / -1; }
+        .btn-salva-acconto { background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .acconti-list { margin-top: 15px; }
+        .acconto-item {
+            background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #16a085;
+        }
+        .acconto-item .info { flex: 1; }
+        .acconto-item .info strong { color: #333; }
+        .acconto-item .info small { color: #666; display: block; margin-top: 3px; }
+        .acconto-item .importo { font-weight: bold; color: #27ae60; font-size: 1.1em; margin-right: 10px; }
+        .btn-elimina-acconto { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8em; }
+        
+        .riepilogo-finanziario {
+            background: #fff3cd; border: 2px solid #f39c12; border-radius: 10px; padding: 20px;
+            margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;
+        }
+        .riepilogo-finanziario .item { text-align: center; }
+        .riepilogo-finanziario .item .label { font-size: 0.8em; color: #666; }
+        .riepilogo-finanziario .item .value { font-size: 1.3em; font-weight: bold; color: #c0392b; }
     </style>
 </head>
 <body>
@@ -50,8 +91,9 @@
     <div class="nav">
         <a href="dashboard.html">🏠 Dashboard</a>
         <a href="clienti.html">📝 Nuovo Preventivo</a>
+        <a href="preventivi.html">📊 Archivio Preventivi</a>
         <a href="archivio.html">📁 Archivio</a>
-        <a href="logout.html">🚪 Esci</a>
+        <a href="logout.html"> Esci</a>
     </div>
 
     <div class="container">
@@ -60,26 +102,14 @@
         </div>
     </div>
 
+    <!-- Modal Dettaglio Contratto -->
     <div class="modal" id="dettaglioModal">
         <div class="modal-content">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="modal-header">
                 <h2>📜 Dettaglio Contratto</h2>
-                <button class="btn-close" onclick="chiudiModal()">❌ Chiudi</button>
+                <button class="close-btn" onclick="chiudiModal()">❌ Chiudi</button>
             </div>
             <div id="dettaglioContent"></div>
-        </div>
-    </div>
-
-    <div class="modal" id="accontoModal">
-        <div class="modal-content">
-            <h2>💰 Aggiungi Acconto/Caparra</h2>
-            <div class="form-group"><label>Data pagamento:</label><input type="date" id="accontoData"></div>
-            <div class="form-group"><label>Importo (€):</label><input type="number" id="accontoImporto" step="0.01"></div>
-            <div class="form-group"><label>Descrizione:</label><textarea id="accontoDesc" rows="3"></textarea></div>
-            <div class="modal-buttons">
-                <button class="btn-save" onclick="salvaAcconto()">✅ Salva</button>
-                <button class="btn-cancel" onclick="chiudiAccontoModal()">❌ Annulla</button>
-            </div>
         </div>
     </div>
 
@@ -87,32 +117,44 @@
     <script>
         if (!isAuthenticated()) { window.location.href = 'login.html'; }
 
+        let contratti = [];
         let currentContrattoId = null;
 
         function caricaContratti() {
-            const clienti = JSON.parse(localStorage.getItem('pietroClienti') || '[]');
-            const contratti = clienti.filter(c => c.stato === 'Accettato');
+            const tutti = JSON.parse(localStorage.getItem('pietroClienti') || '[]');
+            contratti = tutti.filter(c => c.stato === 'Accettato');
+            renderContratti();
+        }
+
+        function renderContratti() {
             const lista = document.getElementById('contrattiList');
             lista.innerHTML = '';
 
             if (contratti.length === 0) {
-                lista.innerHTML = '<p style="text-align:center; color:#999;">Nessun contratto accettato.</p>';
+                lista.innerHTML = '<p style="text-align:center; color:#999; padding:20px;">Nessun contratto accettato.</p>';
                 return;
             }
 
             contratti.forEach(c => {
                 const totAcconti = (c.acconti || []).reduce((s, a) => s + (parseFloat(a.importo) || 0), 0);
                 const saldo = (parseFloat(c.importoTotale) || 0) - totAcconti;
+                
                 const card = document.createElement('div');
                 card.className = 'contratto-card';
                 card.innerHTML = `
                     <div class="contratto-info">
-                        <h3>${c.c1.cognome} ${c.c1.nome}</h3>
-                        <p>📅 ${c.dataEvento || 'N/D'} | 💰 € ${c.importoTotale || '0.00'} | ✅ Incassato: € ${totAcconti.toFixed(2)} | ⏳ Saldo: € ${saldo.toFixed(2)}</p>
+                        <h3>${c.c1?.cognome || ''} ${c.c1?.nome || ''} ${c.c2?.nome ? '& ' + c.c2.cognome + ' ' + c.c2.nome : ''}</h3>
+                        <p>📅 ${c.dataEvento || 'N/D'} | 🎯 ${c.servizio || 'N/D'} | 💰 Totale: € ${(c.importoTotale || 0).toFixed(2)}</p>
+                        <p>✅ Incassato: € ${totAcconti.toFixed(2)} | 📆 Accettato il: ${c.dataAccettazione ? new Date(c.dataAccettazione).toLocaleDateString('it-IT') : 'N/D'}</p>
                     </div>
-                    <div>
-                        <button class="btn-save" style="padding:8px 14px;" onclick="apriDettaglio(${c.id})">📜 Dettagli</button>
-                        <button class="btn-save" style="padding:8px 14px; background:#f39c12;" onclick="apriAcconto(${c.id})">💰 Acconto</button>
+                    <div class="saldo-box">
+                        <div class="label">Saldo da Incassare</div>
+                        <div class="value">€ ${Math.max(0, saldo).toFixed(2)}</div>
+                    </div>
+                    <div class="btn-actions">
+                        <button class="btn-detail" onclick="apriDettaglio(${c.id})">📜 Dettagli</button>
+                        <button class="btn-acconto" onclick="apriGestioneAcconti(${c.id})">💰 Acconti</button>
+                        <button class="btn-pdf" onclick="creaPDFContratto(${c.id})">📄 PDF</button>
                     </div>
                 `;
                 lista.appendChild(card);
@@ -120,49 +162,226 @@
         }
 
         function apriDettaglio(id) {
-            const clienti = JSON.parse(localStorage.getItem('pietroClienti') || '[]');
-            const c = clienti.find(x => x.id === id);
+            const c = contratti.find(x => x.id === id);
             if (!c) return;
-            currentContrattoId = id;
-            let html = `<p><strong>Cliente:</strong> ${c.c1.cognome} ${c.c1.nome}</p>`;
-            html += `<p><strong>Servizio:</strong> ${c.servizio}</p>`;
-            html += `<p><strong>Data Evento:</strong> ${c.dataEvento || 'N/D'}</p>`;
-            html += `<p><strong>Importo Totale:</strong> € ${c.importoTotale || '0.00'}</p>`;
-            if (c.acconti && c.acconti.length > 0) {
-                html += '<h3 style="margin-top:15px; color:#27ae60;">Acconti versati:</h3><ul>';
-                c.acconti.forEach(a => {
-                    html += `<li>📅 ${a.data} - € ${a.importo} - ${a.descrizione || ''}</li>`;
-                });
-                html += '</ul>';
-            }
+
+            const totAcconti = (c.acconti || []).reduce((s, a) => s + (parseFloat(a.importo) || 0), 0);
+            const saldo = (parseFloat(c.importoTotale) || 0) - totAcconti;
+
+            let html = `
+                <div class="section-title">👤 Dati Clienti</div>
+                <div class="detail-grid">
+                    <div class="detail-item"><label>Cliente 1</label><span>${c.c1?.cognome || ''} ${c.c1?.nome || ''}</span></div>
+                    <div class="detail-item"><label>Indirizzo</label><span>${c.c1?.indirizzo || '-'}</span></div>
+                    <div class="detail-item"><label>Cellulare</label><span>${c.c1?.cellulare || '-'}</span></div>
+                    <div class="detail-item"><label>Email</label><span>${c.c1?.email || '-'}</span></div>
+                    ${c.c2?.nome ? `
+                    <div class="detail-item"><label>Cliente 2</label><span>${c.c2?.cognome || ''} ${c.c2?.nome || ''}</span></div>
+                    <div class="detail-item"><label>Indirizzo</label><span>${c.c2?.indirizzo || '-'}</span></div>
+                    <div class="detail-item"><label>Cellulare</label><span>${c.c2?.cellulare || '-'}</span></div>
+                    <div class="detail-item"><label>Email</label><span>${c.c2?.email || '-'}</span></div>
+                    ` : ''}
+                </div>
+
+                <div class="section-title">🎯 Lavoro Commissionato</div>
+                <div class="detail-grid">
+                    <div class="detail-item"><label>Servizio</label><span>${c.servizio || '-'}</span></div>
+                    <div class="detail-item"><label>Data Evento</label><span>${c.dataEvento || '-'}</span></div>
+                    <div class="detail-item"><label>Chiesa</label><span>${c.chiesa || '-'}</span></div>
+                    <div class="detail-item"><label>Location</label><span>${c.location || '-'}</span></div>
+                    <div class="detail-item"><label>Album</label><span>${c.album || '-'}</span></div>
+                    <div class="detail-item"><label>Video</label><span>${c.video || '-'}</span></div>
+                    <div class="detail-item"><label>Anteprima</label><span>${c.anteprima || '-'}</span></div>
+                    <div class="detail-item"><label>Post Servizio</label><span>${c.postServizio || '-'}</span></div>
+                </div>
+
+                <div class="riepilogo-finanziario">
+                    <div class="item">
+                        <div class="label">Importo Totale</div>
+                        <div class="value">€ ${(c.importoTotale || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="item">
+                        <div class="label">Totale Acconti</div>
+                        <div class="value" style="color:#27ae60;">€ ${totAcconti.toFixed(2)}</div>
+                    </div>
+                    <div class="item">
+                        <div class="label">Saldo da Incassare</div>
+                        <div class="value">€ ${Math.max(0, saldo).toFixed(2)}</div>
+                    </div>
+                </div>
+
+                <div class="section-title">📝 Note</div>
+                <div class="detail-item"><span>${c.note || 'Nessuna nota'}</span></div>
+            `;
+
             document.getElementById('dettaglioContent').innerHTML = html;
             document.getElementById('dettaglioModal').style.display = 'flex';
         }
 
-        function chiudiModal() { document.getElementById('dettaglioModal').style.display = 'none'; }
-
-        function apriAcconto(id) {
-            currentContrattoId = id;
-            document.getElementById('accontoModal').style.display = 'flex';
+        function chiudiModal() {
+            document.getElementById('dettaglioModal').style.display = 'none';
         }
 
-        function chiudiAccontoModal() { document.getElementById('accontoModal').style.display = 'none'; }
+        function apriGestioneAcconti(id) {
+            const c = contratti.find(x => x.id === id);
+            if (!c) return;
+            currentContrattoId = id;
+
+            const totAcconti = (c.acconti || []).reduce((s, a) => s + (parseFloat(a.importo) || 0), 0);
+            const saldo = (parseFloat(c.importoTotale) || 0) - totAcconti;
+
+            let html = `
+                <div class="section-title"> ${c.c1?.cognome || ''} ${c.c1?.nome || ''} - ${c.servizio || ''}</div>
+                
+                <div class="riepilogo-finanziario">
+                    <div class="item">
+                        <div class="label">Importo Totale</div>
+                        <div class="value">€ ${(c.importoTotale || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="item">
+                        <div class="label">Totale Acconti Versati</div>
+                        <div class="value" style="color:#27ae60;">€ ${totAcconti.toFixed(2)}</div>
+                    </div>
+                    <div class="item">
+                        <div class="label">Saldo Rimanente</div>
+                        <div class="value">€ ${Math.max(0, saldo).toFixed(2)}</div>
+                    </div>
+                </div>
+
+                <div class="acconti-section">
+                    <h3> Aggiungi Nuovo Acconto/Caparra</h3>
+                    <div class="acconto-form">
+                        <div>
+                            <label style="font-size:0.8em; color:#555; font-weight:bold;">📅 Data Pagamento</label>
+                            <input type="date" id="accontoData">
+                        </div>
+                        <div>
+                            <label style="font-size:0.8em; color:#555; font-weight:bold;">💶 Importo (€)</label>
+                            <input type="number" id="accontoImporto" step="0.01" placeholder="0.00">
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label style="font-size:0.8em; color:#555; font-weight:bold;">📝 Descrizione</label>
+                            <textarea id="accontoDesc" rows="2" placeholder="Es: Acconto iniziale, Caparra confirmatoria..."></textarea>
+                        </div>
+                    </div>
+                    <button class="btn-salva-acconto" onclick="salvaAcconto()">✅ Salva Acconto</button>
+                </div>
+
+                <div class="section-title" style="margin-top:25px;">📋 Storico Acconti</div>
+                <div class="acconti-list" id="accontiList">
+                    ${(c.acconti || []).length === 0 ? '<p style="color:#999; text-align:center;">Nessun acconto registrato.</p>' : ''}
+                    ${(c.acconti || []).map((a, idx) => `
+                        <div class="acconto-item">
+                            <div class="info">
+                                <strong> ${a.data ? new Date(a.data).toLocaleDateString('it-IT') : 'N/D'}</strong>
+                                <small>${a.descrizione || 'Nessuna descrizione'}</small>
+                            </div>
+                            <div class="importo">€ ${(parseFloat(a.importo) || 0).toFixed(2)}</div>
+                            <button class="btn-elimina-acconto" onclick="eliminaAcconto(${c.id}, ${idx})">️</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            document.getElementById('dettaglioContent').innerHTML = html;
+            document.getElementById('dettaglioModal').style.display = 'flex';
+        }
 
         function salvaAcconto() {
             const data = document.getElementById('accontoData').value;
             const importo = document.getElementById('accontoImporto').value;
             const descrizione = document.getElementById('accontoDesc').value;
-            if (!data || !importo) { alert('Compila data e importo!'); return; }
 
-            const clienti = JSON.parse(localStorage.getItem('pietroClienti') || '[]');
-            const idx = clienti.findIndex(c => c.id === currentContrattoId);
+            if (!data || !importo) {
+                alert('⚠️ Compila data e importo!');
+                return;
+            }
+
+            if (parseFloat(importo) <= 0) {
+                alert('⚠️ L\'importo deve essere maggiore di zero!');
+                return;
+            }
+
+            const tutti = JSON.parse(localStorage.getItem('pietroClienti') || '[]');
+            const idx = tutti.findIndex(c => c.id === currentContrattoId);
             if (idx === -1) return;
-            if (!clienti[idx].acconti) clienti[idx].acconti = [];
-            clienti[idx].acconti.push({ data, importo, descrizione });
-            localStorage.setItem('pietroClienti', JSON.stringify(clienti));
-            alert('✅ Acconto salvato!');
-            chiudiAccontoModal();
+
+            if (!tutti[idx].acconti) tutti[idx].acconti = [];
+            tutti[idx].acconti.push({
+                data: data,
+                importo: parseFloat(importo),
+                descrizione: descrizione,
+                dataRegistrazione: new Date().toISOString()
+            });
+
+            localStorage.setItem('pietroClienti', JSON.stringify(tutti));
+            alert('✅ Acconto salvato con successo!');
+            apriGestioneAcconti(currentContrattoId);
             caricaContratti();
+        }
+
+        function eliminaAcconto(contrattoId, accontoIdx) {
+            if (!confirm('Sei sicuro di voler eliminare questo acconto?')) return;
+
+            const tutti = JSON.parse(localStorage.getItem('pietroClienti') || '[]');
+            const idx = tutti.findIndex(c => c.id === contrattoId);
+            if (idx === -1) return;
+
+            tutti[idx].acconti.splice(accontoIdx, 1);
+            localStorage.setItem('pietroClienti', JSON.stringify(tutti));
+            alert('️ Acconto eliminato.');
+            apriGestioneAcconti(contrattoId);
+            caricaContratti();
+        }
+
+        function creaPDFContratto(id) {
+            const c = contratti.find(x => x.id === id);
+            if (!c) return;
+
+            const totAcconti = (c.acconti || []).reduce((s, a) => s + (parseFloat(a.importo) || 0), 0);
+            const saldo = (parseFloat(c.importoTotale) || 0) - totAcconti;
+
+            let testo = `PIETRO IMPELLIZZERI FOTO & VIDEO\n`;
+            testo += `Via Sommariva 43, Capaci (PA)\n`;
+            testo += `📧 pietroimpellizzerifotoevideo@gamail.com | 📞 327 498 7435\n\n`;
+            testo += `CONTRATTO N° ${c.id}\n`;
+            testo += `Data Accettazione: ${c.dataAccettazione ? new Date(c.dataAccettazione).toLocaleDateString('it-IT') : 'N/D'}\n\n`;
+            testo += `CLIENTE 1: ${c.c1?.cognome || ''} ${c.c1?.nome || ''}\n`;
+            testo += `Indirizzo: ${c.c1?.indirizzo || '-'}\n`;
+            testo += `Cellulare: ${c.c1?.cellulare || '-'}\n`;
+            testo += `Email: ${c.c1?.email || '-'}\n\n`;
+            if (c.c2?.nome) {
+                testo += `CLIENTE 2: ${c.c2?.cognome || ''} ${c.c2?.nome || ''}\n`;
+                testo += `Indirizzo: ${c.c2?.indirizzo || '-'}\n\n`;
+            }
+            testo += `SERVIZIO: ${c.servizio || '-'}\n`;
+            testo += `DATA EVENTO: ${c.dataEvento || '-'}\n`;
+            testo += `CHIESA: ${c.chiesa || '-'}\n`;
+            testo += `LOCATION: ${c.location || '-'}\n\n`;
+            testo += `Album: ${c.album || '-'}\n`;
+            testo += `Video: ${c.video || '-'}\n`;
+            testo += `Anteprima: ${c.anteprima || '-'}\n\n`;
+            testo += `═══════════════════════════════\n`;
+            testo += `IMPORTO TOTALE: € ${(c.importoTotale || 0).toFixed(2)}\n`;
+            testo += `TOTALE ACCONTI: € ${totAcconti.toFixed(2)}\n`;
+            testo += `SALDO DA INCASSARE: € ${Math.max(0, saldo).toFixed(2)}\n`;
+            testo += `═══════════════════════════════\n\n`;
+            
+            if (c.acconti && c.acconti.length > 0) {
+                testo += `STORICO ACCONTI:\n`;
+                c.acconti.forEach((a, i) => {
+                    testo += `${i+1}.  ${a.data ? new Date(a.data).toLocaleDateString('it-IT') : 'N/D'} - € ${(parseFloat(a.importo) || 0).toFixed(2)} - ${a.descrizione || ''}\n`;
+                });
+            }
+
+            testo += `\nNOTE: ${c.note || 'Nessuna'}\n`;
+
+            const blob = new Blob([testo], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `contratto_${c.c1?.cognome || 'cliente'}_${c.id}.txt`;
+            a.click();
         }
 
         caricaContratti();
